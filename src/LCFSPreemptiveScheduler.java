@@ -1,6 +1,10 @@
 import java.util.*;
 
 public class LCFSPreemptiveScheduler extends Scheduler{
+    private int timeQuantum = 2;
+    private int timeQuantumFlag = 0;
+    private int currentWorkPosition = 0;
+
     public LCFSPreemptiveScheduler(List<Process> processList) {
         this.n = processList.size();
         HashSet<Process> toFilter = new HashSet<>();
