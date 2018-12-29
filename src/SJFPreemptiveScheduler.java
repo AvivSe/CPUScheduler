@@ -1,20 +1,22 @@
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SJFScheduler extends Scheduler {
-    public SJFScheduler(List<Process> processList) {
+public class SJFPreemptiveScheduler extends Scheduler {
+    public SJFPreemptiveScheduler(List<Process> processList) {
+        this.n = processList.size();
+        processList.removeIf(x->x.getBt()==0);
         this.processes = mountAndGetJobsList(processList);
     }
 
     void simulate() {
         int n = this.processes.size();
 
-        int complete = 0, t = 0, minm = Integer.MAX_VALUE;
+        int complete = 0, t = this.processes.get(0).getAt(), minm = Integer.MAX_VALUE;
         int finish_time;
         Process shortest = processes.get(0);
         boolean check = false;
 
-        // Process until all processes gets
         // completed
         while (complete != n) {
 
@@ -70,9 +72,7 @@ public class SJFScheduler extends Scheduler {
 
     @Override
     public List<Process> mountAndGetJobsList(List<Process> processes) {
-        List<Process> result = Scheduler.getDeepCopy(processes);
-
-        result.sort(Comparator.comparingInt(Process::getAt));
-        return result;
+        processes.sort(Comparator.comparingInt(Process::getAt));
+        return processes;
     }
 }

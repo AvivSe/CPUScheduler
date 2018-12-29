@@ -2,14 +2,14 @@ import java.util.*;
 
 public class LCFSScheduler extends Scheduler {
     public LCFSScheduler(List<Process> processList) {
+        this.n = processList.size();
         this.processes = mountAndGetJobsList(processList);
     }
 
     @Override
     public List<Process> mountAndGetJobsList(List<Process> processes) {
-        List<Process> result = Scheduler.getDeepCopy(processes);
-        result.sort(Comparator.comparingInt(Process::getAt));
-        return result;
+        processes.sort(Comparator.comparingInt(Process::getAt));
+        return processes;
     }
 
     @Override
@@ -33,6 +33,8 @@ public class LCFSScheduler extends Scheduler {
                 time += current.getBt();
                 current.setCt(time);
                 completedProcesses.add(current);
+            } else {
+                time++;
             }
         }
         this.processes = completedProcesses;
