@@ -6,17 +6,17 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        for(int k=0; k < 5; k++) {
-            System.out.println(args[k]);
+
+        for (String arg : args) {
+            System.out.println(arg);
             //Parse input:
-            List<String> parsedLines = Files.readAllLines(Paths.get(args[k]));
+            List<String> parsedLines = Files.readAllLines(Paths.get(arg));
             List<Process> processList = new ArrayList<>();
             int n = Integer.valueOf(parsedLines.get(0));
-            for(int i = 1; i <= n; i++) {
+            for (int i = 1; i <= n; i++) {
                 String[] taskData = parsedLines.get(i).split(",");
-                processList.add(new Process("P"+i,Integer.valueOf(taskData[0]),Integer.valueOf(taskData[1])));
+                processList.add(new Process("P" + i, Integer.valueOf(taskData[0]), Integer.valueOf(taskData[1])));
             }
-
             // Application:
             List<Scheduler> schedulers = new ArrayList<>();
             schedulers.add(new FCFSScheduler(Scheduler.getDeepCopy(processList)));
@@ -29,9 +29,7 @@ public class Main {
                 s.simulate();
                 s.calculateAvgTime();
             });
-            System.out.println("----------------");
         }
 
     }
-
 }

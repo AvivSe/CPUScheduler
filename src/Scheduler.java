@@ -1,7 +1,16 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class Scheduler{
+    static HashMap<String,String> hashMap = new HashMap<>();
+    static {
+        hashMap.put("FCFSScheduler","FCSC");
+        hashMap.put("LCFSScheduler","LCFSNP");
+        hashMap.put("LCFSPreemptiveScheduler","LCFSP");
+        hashMap.put("RoundRobin2QScheduler","RR");
+        hashMap.put("SJFPreemptiveScheduler","SJF");
+    }
     List<Process> processes;
     int n;
 
@@ -12,7 +21,7 @@ public abstract class Scheduler{
     float calculateAvgTime() {
         int n = processes.size();
         int totalWaitingTime = 0, totoalTurnArounfTime = 0;
-        System.out.print(this.getClass().getName()+": ");
+        System.out.print(hashMap.get(this.getClass().getName())+" : ");
         //System.out.println("ID\t\tCK\t\tRT\t\tWT\t\tTA\t\tCT");
         for (int i = 0; i < n; i++) {
             Process current = processes.get(i);
@@ -27,7 +36,7 @@ public abstract class Scheduler{
         }
         //System.out.print("WT AVG: ");
        // System.out.printf("%.3f", (float)totalWaitingTime/(float)this.n);
-        System.out.print("TA AVG: ");
+        System.out.print("mean turnaround = ");
         System.out.printf("%.3f",(float)totoalTurnArounfTime/(float)this.n);
         System.out.println();
         return (float)totoalTurnArounfTime/(float)this.n;
